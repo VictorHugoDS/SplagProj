@@ -1,9 +1,13 @@
 package br.com.SplagProj.controller.fotopessoa;
 
-import br.com.SplagProj.entity.FotoPessoa.dto.FotoPessoaDto;
-import br.com.SplagProj.entity.FotoPessoa.FotoPessoaEntity;
+import br.com.SplagProj.common.RetornoContext;
+import br.com.SplagProj.entity.fotopessoa.dto.FotoPessoaDto;
+import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
 
-import br.com.SplagProj.service.FotoPessoa.FotoPessoaService;
+import br.com.SplagProj.service.fotopessoa.FotoPessoaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,51 +27,55 @@ public class FotoPessoaController {
     @Autowired
     private FotoPessoaService service;
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
+            @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Buscar Foto pessoa por id",description = "Busca Foto da Pessoa por id",tags = "Foto_Pessoa")
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getById(@PathVariable String id){
-        try{
-            FotoPessoaEntity response = service.get(Integer.valueOf(id));
-            if(Objects.isNull(response)){
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e){
-            System.out.println("Deu merda! {}");
-            log.error("e: ", e);
-            return ResponseEntity.badRequest().body("Não foi possivel executar a request");
-        }
+            RetornoContext<Object> response = service.get(Integer.valueOf(id));
+            return response.toResponseEntity();
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
+            @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Salvar Foto Pessoa",description = "Salva foto pessoa, se o id da pessoa não existir no banco, salva uma nova entidade pessoa",tags = "Foto_Pessoa")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> save(@RequestBody @Valid FotoPessoaDto request){
-        try{
-            FotoPessoaEntity response = service.save(request.toEntity());
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e){
-            log.error("e: ", e);
-            return ResponseEntity.badRequest().body("Não foi possivel executar a request");
-        }
+            RetornoContext<Object> response = service.save(request.toEntity());
+            return response.toResponseEntity();
     }
 
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
+            @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Atualiza foto pessoa por id",description = "Busca Foto da Pessoa por id, se o id da pessoa não existir no banco, salva uma nova entidade pessoa",tags = "Foto_Pessoa")
     @PutMapping(value = "{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> update(@PathVariable String id ,@RequestBody @Valid FotoPessoaDto request){
-        try{
-            FotoPessoaEntity response = service.update(Integer.valueOf(id),request.toEntity());
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e){
-            log.error("e: ", e);
-            return ResponseEntity.badRequest().body("Não foi possivel executar a request");
-        }
+            RetornoContext<Object> response = service.update(Integer.valueOf(id),request.toEntity());
+            return response.toResponseEntity();
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Solicitação executada com sucesso, sem retorno de body"),
+            @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Deleta foto pessoa",tags = "Foto_Pessoa")
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
-        try{
             service.delete(Integer.valueOf(id));
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception e){
-            log.error("e: ", e);
-            return ResponseEntity.badRequest().body("Não foi possivel executar a request");
-        }
     }
 }

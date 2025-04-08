@@ -1,6 +1,6 @@
-package br.com.SplagProj.entity.Pessoa;
+package br.com.SplagProj.entity.pessoa;
 
-import br.com.SplagProj.entity.BaseEntity.BaseEntity;
+import br.com.SplagProj.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name = "pessoa")
 @AttributeOverride(name = "pes_id", column = @Column(name = "fp_id",nullable = false, unique = true))
 public class PessoaEntity extends BaseEntity {

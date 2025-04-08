@@ -1,7 +1,6 @@
-package br.com.SplagProj.entity.FotoPessoa.dto;
+package br.com.SplagProj.entity.fotopessoa.dto;
 
-import br.com.SplagProj.entity.FotoPessoa.FotoPessoaEntity;
-import br.com.SplagProj.entity.Pessoa.PessoaEntity;
+import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

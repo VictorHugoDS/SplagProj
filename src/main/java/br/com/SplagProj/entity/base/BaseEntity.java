@@ -1,4 +1,4 @@
-package br.com.SplagProj.entity.BaseEntity;
+package br.com.SplagProj.entity.base;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

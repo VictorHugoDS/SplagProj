@@ -1,4 +1,4 @@
-package br.com.SplagProj.entity.FotoPessoa.dto;
+package br.com.SplagProj.entity.fotopessoa.dto;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;

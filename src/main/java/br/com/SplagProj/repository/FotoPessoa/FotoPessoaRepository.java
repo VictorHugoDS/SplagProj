@@ -1,6 +1,6 @@
 package br.com.SplagProj.repository.FotoPessoa;
 
-import br.com.SplagProj.entity.FotoPessoa.FotoPessoaEntity;
+import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

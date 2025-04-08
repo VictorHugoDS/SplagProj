@@ -1,10 +1,9 @@
-package br.com.SplagProj.entity.FotoPessoa;
+package br.com.SplagProj.entity.fotopessoa;
 
-import br.com.SplagProj.entity.BaseEntity.BaseEntity;
-import br.com.SplagProj.entity.Pessoa.PessoaEntity;
+import br.com.SplagProj.entity.base.BaseEntity;
+import br.com.SplagProj.entity.pessoa.PessoaEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.jackson.Jacksonized;
 
 import java.time.LocalDate;
 
