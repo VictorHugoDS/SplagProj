@@ -8,5 +8,5 @@ import java.util.Optional;
 
 
 public interface ServidorTemporarioRepository extends JpaRepository<ServidorTemporarioEntity,Integer> {
-    Optional<ServidorTemporarioEntity> findByPessoa(PessoaEntity pessoa);
+    Optional<ServidorTemporarioEntity> findFirstByPessoaOrderByDataAdmissaoDesc(PessoaEntity pessoa);
 }
