@@ -5,6 +5,9 @@ import br.com.SplagProj.repository.pessoa.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 public class PessoaServiceImpl implements PessoaService{
 
@@ -33,5 +36,10 @@ public class PessoaServiceImpl implements PessoaService{
     @Override
     public PessoaEntity encontrarPorId(Integer id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void salvaListaPessoas(List<PessoaEntity> pessoaEntityList) {
+        repository.saveAll(pessoaEntityList);
     }
 }

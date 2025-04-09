@@ -3,17 +3,20 @@ package br.com.SplagProj.service.endereco;
 import br.com.SplagProj.common.RetornoContext;
 import br.com.SplagProj.entity.cidade.CidadeEntity;
 import br.com.SplagProj.entity.endereco.EnderecoEntity;
-import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
 import br.com.SplagProj.entity.pessoa.PessoaEntity;
+import br.com.SplagProj.entity.unidade.UnidadeEntity;
 import br.com.SplagProj.repository.cidade.CidadeRepository;
 import br.com.SplagProj.repository.endereco.EnderecoRepository;
-import jakarta.persistence.EntityManager;
+import br.com.SplagProj.service.pessoa.PessoaService;
+import br.com.SplagProj.service.unidade.UnidadeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 import static br.com.SplagProj.common.Mensagens.ENTIDADE_NAO_ENCONTRADA;
@@ -25,19 +28,25 @@ public class EnderecoServiceImpl implements EnderecoService{
 
     @Autowired
     CidadeRepository cidadeRepository;
-
+    
+    @Autowired
+    PessoaService pessoaService;
+    
     @Autowired
     EnderecoRepository repository;
+
+    @Autowired
+    UnidadeService unidadeService;
 
     @Override
     public RetornoContext<Object> get(Integer id) {
         try{
-            EnderecoEntity fotoPessoa = repository.findById(id).orElse(null);
-            if(Objects.isNull(fotoPessoa)){
+            EnderecoEntity endereco = repository.findById(id).orElse(null);
+            if(Objects.isNull(endereco)){
                 String mensagem = ENTIDADE_NAO_ENCONTRADA +  " o endereço";
                 return RetornoContext.builder().mensagem(mensagem).status(HttpStatus.NOT_FOUND).build();
             }
-            return RetornoContext.builder().body(fotoPessoa).status(HttpStatus.OK).build();
+            return RetornoContext.builder().body(endereco).status(HttpStatus.OK).build();
         } catch (Exception e){
             log.info(String.valueOf(e));
             return RetornoContext.builder().mensagem(ERRO_GENERICO_REQUISICAO).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -90,6 +99,45 @@ public class EnderecoServiceImpl implements EnderecoService{
             return cidadeRepository.save(pessoa);
         }
         return cidadeRepository.findById(id).orElse(null);
+    }
+
+
+    @Transactional
+    @Override
+    public RetornoContext<Object> associarPessoas(String id, List<PessoaEntity> pessoas) {
+        try{
+            pessoaService.salvaListaPessoas(pessoas);
+            EnderecoEntity endereco = repository.findById(Integer.valueOf(id)).orElse(null);
+            if(Objects.isNull(endereco)){
+                String mensagem = ENTIDADE_NAO_ENCONTRADA +  " o endereço";
+                return RetornoContext.builder().mensagem(mensagem).status(HttpStatus.NOT_FOUND).build();
+            }
+            endereco.setPessoas(pessoas);
+            var retorno = repository.save(endereco);
+            return RetornoContext.builder().body(retorno).status(HttpStatus.OK).build();
+        } catch (Exception e){
+            log.info(String.valueOf(e));
+            return RetornoContext.builder().mensagem(ERRO_GENERICO_REQUISICAO).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Transactional
+    @Override
+    public RetornoContext<Object> associarUnidades(String id, List<UnidadeEntity> unidades) {
+        try{
+            unidadeService.salvaListaUnidades(unidades);
+            EnderecoEntity endereco = repository.findById(Integer.valueOf(id)).orElse(null);
+            if(Objects.isNull(endereco)){
+                String mensagem = ENTIDADE_NAO_ENCONTRADA +  " o endereço";
+                return RetornoContext.builder().mensagem(mensagem).status(HttpStatus.NOT_FOUND).build();
+            }
+            endereco.setUnidades(unidades);
+            var retorno = repository.save(endereco);
+            return RetornoContext.builder().body(retorno).status(HttpStatus.OK).build();
+        } catch (Exception e){
+            log.info(String.valueOf(e));
+            return RetornoContext.builder().mensagem(ERRO_GENERICO_REQUISICAO).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

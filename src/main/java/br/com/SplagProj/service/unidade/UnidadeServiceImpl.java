@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class UnidadeServiceImpl implements UnidadeService{
@@ -23,5 +25,10 @@ public class UnidadeServiceImpl implements UnidadeService{
             return repository.save(unidade);
         }
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void salvaListaUnidades(List<UnidadeEntity> unidades) {
+        repository.saveAll(unidades);
     }
 }

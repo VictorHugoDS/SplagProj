@@ -3,6 +3,8 @@ package br.com.SplagProj.controller.endereco;
 import br.com.SplagProj.common.RetornoContext;
 import br.com.SplagProj.entity.endereco.dto.EnderecoDto;
 import br.com.SplagProj.entity.lotacao.dto.LotacaoDto;
+import br.com.SplagProj.entity.pessoa.PessoaEntity;
+import br.com.SplagProj.entity.unidade.UnidadeEntity;
 import br.com.SplagProj.service.endereco.EnderecoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("endereco")
@@ -84,5 +88,31 @@ public class EnderecoController {
     public ResponseEntity<Object> delete(@PathVariable String id){
         service.delete(Integer.valueOf(id));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
+            @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Associar lista de pessoas ao Endereço",description = "Associa uma lista de pessoas a um endereço que é passado por id",tags = "Endereço")
+    @PutMapping(value = "associar-pessoas/{id}")
+    public ResponseEntity<Object> associarPessoa(@PathVariable String id, @RequestBody @Valid List<PessoaEntity> pessoas){
+        var retorno = service.associarPessoas(id,pessoas);
+        return retorno.toResponseEntity();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
+            @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Associar lista de unidades ao Endereço",description = "Associa uma lista de unidades a um endereço que é passado por id",tags = "Endereço")
+    @PutMapping(value = "associar-unidades/{id}")
+    public ResponseEntity<Object> associarUnidades(@PathVariable String id, @RequestBody @Valid List<UnidadeEntity> unidades){
+        var retorno = service.associarUnidades(id,unidades);
+        return retorno.toResponseEntity();
     }
 }
