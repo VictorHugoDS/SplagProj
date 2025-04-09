@@ -11,6 +11,6 @@ public interface ServidorTemporarioService  {
     RetornoContext<Object> admissao(AdmissaoDemissaoDto dto);
     RetornoContext<Object> demissao(AdmissaoDemissaoDto dto);
     RetornoContext<Object> update(Integer idPessoa, ServidorTemporarioEntity entity);
-
     RetornoContext<Object> delete(Integer idPessoa);
+    RetornoContext<Object> getAllPaginado(int page, int size);
 }

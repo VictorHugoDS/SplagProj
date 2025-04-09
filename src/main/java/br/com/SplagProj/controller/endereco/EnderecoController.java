@@ -1,8 +1,9 @@
-package br.com.SplagProj.controller.lotacao;
+package br.com.SplagProj.controller.endereco;
 
 import br.com.SplagProj.common.RetornoContext;
+import br.com.SplagProj.entity.endereco.dto.EnderecoDto;
 import br.com.SplagProj.entity.lotacao.dto.LotacaoDto;
-import br.com.SplagProj.service.lotacao.LotacaoService;
+import br.com.SplagProj.service.endereco.EnderecoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("lotacao")
-public class LotacaoController {
+@RequestMapping("endereco")
+public class EnderecoController {
 
     @Autowired
-    private LotacaoService service;
+    private EnderecoService service;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
@@ -26,7 +27,7 @@ public class LotacaoController {
             @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
     })
-    @Operation(summary = "Buscar Lotação  por id",description = "Busca Lotação por id",tags = "Lotação")
+    @Operation(summary = "Buscar Endereço  por id",description = "Busca Endereço por id",tags = "Endereço")
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getById(@PathVariable String id){
         RetornoContext<Object> response = service.get(Integer.valueOf(id));
@@ -37,8 +38,8 @@ public class LotacaoController {
             @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
     })
-    @Operation(summary = "Buscar lista de Lotações",description = "Busca lista de Lotações em páginas de padrão de 10 itens",tags = "Lotação")
-    @GetMapping("/lotacoes")
+    @Operation(summary = "Buscar lista de Endereços",description = "Busca lista de Endereços em páginas de padrão de 10 itens",tags = "Endereço")
+    @GetMapping("/enderecos")
     public ResponseEntity<Object> getServidores(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -52,9 +53,9 @@ public class LotacaoController {
             @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
     })
-    @Operation(summary = "Salvar Lotação",description = "Salva Lotação, se o id da pessoa ou unidade não existir no banco, salva uma nova entidade",tags = "Lotação")
+    @Operation(summary = "Salvar Endereço",description = "Salva Endereço, se o id da cidade não existir no banco, salva uma nova entidade",tags = "Endereço")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> save(@RequestBody @Valid LotacaoDto request){
+    public ResponseEntity<Object> save(@RequestBody @Valid EnderecoDto request){
         RetornoContext<Object> response = service.save(request.toEntity());
         return response.toResponseEntity();
     }
@@ -66,9 +67,9 @@ public class LotacaoController {
             @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
     })
-    @Operation(summary = "Atualiza Lotação por id",description = "Busca Lotação por id, se o id da pessoa ou unidade não existir no banco, salva uma nova entidade",tags = "Lotação")
+    @Operation(summary = "Atualiza Endereço por id",description = "Busca Endereço por id, se o id cidade não existir no banco, salva uma nova entidade pessoa",tags = "Endereço")
     @PutMapping(value = "{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> update(@PathVariable String id ,@RequestBody @Valid LotacaoDto request){
+    public ResponseEntity<Object> update(@PathVariable String id ,@RequestBody @Valid EnderecoDto request){
         RetornoContext<Object> response = service.update(Integer.valueOf(id),request.toEntity());
         return response.toResponseEntity();
     }
@@ -78,7 +79,7 @@ public class LotacaoController {
             @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
     })
-    @Operation(summary = "Deleta Lotação",tags = "Lotação")
+    @Operation(summary = "Deleta Endereço",tags = "Endereço")
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
         service.delete(Integer.valueOf(id));

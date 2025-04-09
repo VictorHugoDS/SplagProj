@@ -1,4 +1,4 @@
-package br.com.SplagProj.repository.Pessoa;
+package br.com.SplagProj.repository.pessoa;
 
 import br.com.SplagProj.entity.pessoa.PessoaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

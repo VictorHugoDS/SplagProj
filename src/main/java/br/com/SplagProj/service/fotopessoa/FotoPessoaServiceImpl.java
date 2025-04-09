@@ -3,10 +3,11 @@ package br.com.SplagProj.service.fotopessoa;
 import br.com.SplagProj.common.RetornoContext;
 import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
 import br.com.SplagProj.entity.pessoa.PessoaEntity;
-import br.com.SplagProj.repository.FotoPessoa.FotoPessoaRepository;
+import br.com.SplagProj.repository.fotopessoa.FotoPessoaRepository;
 import br.com.SplagProj.service.pessoa.PessoaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -38,6 +39,16 @@ public class FotoPessoaServiceImpl implements FotoPessoaService{
                 return RetornoContext.builder().mensagem(mensagem).status(HttpStatus.NOT_FOUND).build();
             }
             return RetornoContext.builder().body(fotoPessoa).status(HttpStatus.OK).build();
+        } catch (Exception e){
+            log.info(String.valueOf(e));
+            return RetornoContext.builder().mensagem(ERRO_GENERICO_REQUISICAO).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public RetornoContext<Object> getAllPaginado(int page, int size) {
+        try {
+            return RetornoContext.builder().body(repository.findAll(PageRequest.of(page, size))).status(HttpStatus.OK).build();
         } catch (Exception e){
             log.info(String.valueOf(e));
             return RetornoContext.builder().mensagem(ERRO_GENERICO_REQUISICAO).status(HttpStatus.INTERNAL_SERVER_ERROR).build();

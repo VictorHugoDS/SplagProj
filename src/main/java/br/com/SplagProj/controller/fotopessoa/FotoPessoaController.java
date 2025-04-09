@@ -34,11 +34,24 @@ public class FotoPessoaController {
             @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
     })
-    @Operation(summary = "Buscar Lotação por id",description = "Busca Lotação por id",tags = "Foto_Pessoa")
+    @Operation(summary = "Buscar Foto Pessoa por id",description = "Busca Foto Pessoa por id",tags = "Foto_Pessoa")
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getById(@PathVariable String id){
             RetornoContext<Object> response = service.get(Integer.valueOf(id));
             return response.toResponseEntity();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Buscar lista de Fotos",description = "Busca lista Fotos em páginas de padrão de 10 itens",tags = "Foto_Pessoa")
+    @GetMapping("/fotos")
+    public ResponseEntity<Object> getServidores(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        var context = service.getAllPaginado(page,size);
+        return context.toResponseEntity();
     }
 
     @ApiResponses(value = {

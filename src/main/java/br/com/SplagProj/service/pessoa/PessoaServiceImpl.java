@@ -1,7 +1,7 @@
 package br.com.SplagProj.service.pessoa;
 
 import br.com.SplagProj.entity.pessoa.PessoaEntity;
-import br.com.SplagProj.repository.Pessoa.PessoaRepository;
+import br.com.SplagProj.repository.pessoa.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

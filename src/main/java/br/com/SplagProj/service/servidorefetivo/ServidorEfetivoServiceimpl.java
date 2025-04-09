@@ -9,10 +9,11 @@ import br.com.SplagProj.repository.servidortemporario.ServidorTemporarioReposito
 import br.com.SplagProj.service.pessoa.PessoaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import org.springframework.data.domain.PageRequest;
 import java.util.Objects;
 
 import static br.com.SplagProj.common.Mensagens.ENTIDADE_NAO_ENCONTRADA;
@@ -50,6 +51,16 @@ public class ServidorEfetivoServiceimpl implements ServidorEfetivoService {
         }
 
 
+    }
+
+    @Override
+    public RetornoContext<Object> getAllPaginado(int page, int size) {
+        try {
+            return RetornoContext.builder().body(repository.findAll(PageRequest.of(page, size))).status(HttpStatus.OK).build();
+        } catch (Exception e){
+            log.info(String.valueOf(e));
+            return RetornoContext.builder().mensagem(ERRO_GENERICO_REQUISICAO).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @Override

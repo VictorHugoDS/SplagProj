@@ -37,6 +37,19 @@ public class ServidorEfetivoController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Buscar lista de Servidores Efetivo",description = "Busca lista de Servidores Efetivo em páginas de padrão de 10 itens",tags = "Servidor_Efetivo")
+    @GetMapping("/servidores")
+    public ResponseEntity<Object> getServidores(
+         @RequestParam(defaultValue = "0") int page,
+         @RequestParam(defaultValue = "10") int size) {
+        var context = service.getAllPaginado(page,size);
+        return context.toResponseEntity();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),
             @ApiResponse(responseCode = "400",description = "Solicitação mal formatada"),
             @ApiResponse(responseCode = "404",description = "Não foi possível encontrar alguma entidade"),
             @ApiResponse(responseCode = "500",description = "Erro ao realizar a solicitação")

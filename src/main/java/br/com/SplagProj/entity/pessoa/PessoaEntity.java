@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @ToString
 @Builder
 @Table(name = "pessoa")
-@AttributeOverride(name = "pes_id", column = @Column(name = "fp_id",nullable = false, unique = true))
+@AttributeOverride(name = "pes_id", column = @Column(name = "pes_id",nullable = false, unique = true))
 public class PessoaEntity extends BaseEntity {
 
     @Column(name = "pes_nome")

@@ -1,7 +1,7 @@
 package br.com.SplagProj.service.unidade;
 
 import br.com.SplagProj.entity.unidade.UnidadeEntity;
-import br.com.SplagProj.repository.Unidade.UnidadeRepository;
+import br.com.SplagProj.repository.unidade.UnidadeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

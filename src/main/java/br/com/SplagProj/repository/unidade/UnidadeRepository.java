@@ -1,4 +1,4 @@
-package br.com.SplagProj.repository.Unidade;
+package br.com.SplagProj.repository.unidade;
 
 import br.com.SplagProj.entity.unidade.UnidadeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
