@@ -2,7 +2,10 @@ package br.com.SplagProj.controller.auth;
 
 import br.com.SplagProj.config.security.dto.AuthRequest;
 import br.com.SplagProj.config.security.dto.AuthResponse;
+import br.com.SplagProj.config.security.dto.RegisterRequest;
+import br.com.SplagProj.entity.user.User;
 import br.com.SplagProj.service.jwt.JwtService;
+import br.com.SplagProj.service.jwt.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +25,15 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
+    private final UserService userService;
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        User user = userService.register(request);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        String token = jwtService.generateToken(userDetails);
+        return ResponseEntity.ok(new AuthResponse(token));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
