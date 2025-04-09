@@ -88,4 +88,32 @@ public class ServidorEfetivoController {
         return response.toResponseEntity();
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Nenhum servidor ou lotação encontrada"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Buscar endereço funcional por nome do servidor", 
+              description = "Busca o endereço funcional (unidade) onde o servidor está lotado a partir de parte do nome", 
+              tags = "Servidor_Efetivo")
+    @GetMapping(value = "/endereco-funcional", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> buscarEnderecoFuncionalPorNome(@RequestParam String nomeParcial) {
+        var context = service.buscarEnderecoFuncionalPorNome(nomeParcial);
+        return context.toResponseEntity();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Solicitação executada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Unidade não encontrada ou nenhum servidor encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar a solicitação")
+    })
+    @Operation(summary = "Buscar servidores por unidade", 
+              description = "Busca os servidores efetivos lotados em uma determinada unidade", 
+              tags = "Servidor_Efetivo")
+    @GetMapping(value = "/por-unidade/{unidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> buscarServidoresPorUnidade(@PathVariable Integer unidadeId) {
+        var context = service.buscarServidoresPorUnidade(unidadeId);
+        return context.toResponseEntity();
+    }
+
 }
