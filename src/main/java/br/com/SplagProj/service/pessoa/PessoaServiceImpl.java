@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class PessoaServiceImpl implements PessoaService{
@@ -39,7 +40,7 @@ public class PessoaServiceImpl implements PessoaService{
     }
 
     @Override
-    public void salvaListaPessoas(List<PessoaEntity> pessoaEntityList) {
+    public void salvaListaPessoas(Set<PessoaEntity> pessoaEntityList) {
         repository.saveAll(pessoaEntityList);
     }
 }

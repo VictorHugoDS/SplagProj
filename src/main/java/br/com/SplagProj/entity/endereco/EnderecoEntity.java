@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -43,7 +44,7 @@ public class EnderecoEntity extends BaseEntity {
                  inverseJoinColumns = @JoinColumn(name = "end_id")
      )
 
-    private List<PessoaEntity> pessoas;
+    private Set<PessoaEntity> pessoas;
 
     @ManyToMany
     @JoinTable(
@@ -52,5 +53,5 @@ public class EnderecoEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "end_id")
     )
 
-    private List<UnidadeEntity> unidades;
+    private Set<UnidadeEntity> unidades;
 }

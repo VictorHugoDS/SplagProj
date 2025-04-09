@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -28,7 +29,7 @@ public class UnidadeServiceImpl implements UnidadeService{
     }
 
     @Override
-    public void salvaListaUnidades(List<UnidadeEntity> unidades) {
+    public void salvaListaUnidades(Set<UnidadeEntity> unidades) {
         repository.saveAll(unidades);
     }
 }

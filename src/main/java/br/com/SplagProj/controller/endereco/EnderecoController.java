@@ -16,7 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("endereco")
@@ -98,7 +99,7 @@ public class EnderecoController {
     })
     @Operation(summary = "Associar lista de pessoas ao Endereço",description = "Associa uma lista de pessoas a um endereço que é passado por id",tags = "Endereço")
     @PutMapping(value = "associar-pessoas/{id}")
-    public ResponseEntity<Object> associarPessoa(@PathVariable String id, @RequestBody @Valid List<PessoaEntity> pessoas){
+    public ResponseEntity<Object> associarPessoa(@PathVariable String id, @RequestBody @Valid Set<PessoaEntity> pessoas){
         var retorno = service.associarPessoas(id,pessoas);
         return retorno.toResponseEntity();
     }
@@ -111,7 +112,7 @@ public class EnderecoController {
     })
     @Operation(summary = "Associar lista de unidades ao Endereço",description = "Associa uma lista de unidades a um endereço que é passado por id",tags = "Endereço")
     @PutMapping(value = "associar-unidades/{id}")
-    public ResponseEntity<Object> associarUnidades(@PathVariable String id, @RequestBody @Valid List<UnidadeEntity> unidades){
+    public ResponseEntity<Object> associarUnidades(@PathVariable String id, @RequestBody @Valid Set<UnidadeEntity> unidades){
         var retorno = service.associarUnidades(id,unidades);
         return retorno.toResponseEntity();
     }

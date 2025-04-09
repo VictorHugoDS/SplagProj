@@ -8,9 +8,10 @@ import br.com.SplagProj.service.baseentity.BaseEntityService;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface EnderecoService extends BaseEntityService<EnderecoEntity> {
-    RetornoContext<Object> associarPessoas(String id, @Valid List<PessoaEntity> pessoas);
-    RetornoContext<Object> associarUnidades(String id, @Valid List<UnidadeEntity> pessoas);
+    RetornoContext<Object> associarPessoas(String id, @Valid Set<PessoaEntity> pessoas);
+    RetornoContext<Object> associarUnidades(String id, @Valid Set<UnidadeEntity> pessoas);
 }

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static br.com.SplagProj.common.Mensagens.ENTIDADE_NAO_ENCONTRADA;
 import static br.com.SplagProj.common.Mensagens.ERRO_GENERICO_REQUISICAO;
@@ -104,7 +105,7 @@ public class EnderecoServiceImpl implements EnderecoService{
 
     @Transactional
     @Override
-    public RetornoContext<Object> associarPessoas(String id, List<PessoaEntity> pessoas) {
+    public RetornoContext<Object> associarPessoas(String id, Set<PessoaEntity> pessoas) {
         try{
             pessoaService.salvaListaPessoas(pessoas);
             EnderecoEntity endereco = repository.findById(Integer.valueOf(id)).orElse(null);
@@ -123,7 +124,7 @@ public class EnderecoServiceImpl implements EnderecoService{
 
     @Transactional
     @Override
-    public RetornoContext<Object> associarUnidades(String id, List<UnidadeEntity> unidades) {
+    public RetornoContext<Object> associarUnidades(String id, Set<UnidadeEntity> unidades) {
         try{
             unidadeService.salvaListaUnidades(unidades);
             EnderecoEntity endereco = repository.findById(Integer.valueOf(id)).orElse(null);
