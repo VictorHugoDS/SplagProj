@@ -100,7 +100,7 @@ public class FotoPessoaServiceImpl implements FotoPessoaService{
                     .status(HttpStatus.OK)
                     .build();
         } catch (Exception e) {
-            log.error("Erro ao gerar URL da foto: ", e);
+            log.info(String.valueOf(e));
             return RetornoContext.builder()
                     .mensagem(ERRO_GENERICO_REQUISICAO)
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -119,7 +119,7 @@ public class FotoPessoaServiceImpl implements FotoPessoaService{
                     .status(HttpStatus.OK)
                     .build();
         } catch (Exception e) {
-            log.error("Erro ao fazer upload da foto: ", e);
+            log.info(String.valueOf(e));
             return RetornoContext.builder()
                     .mensagem(ERRO_GENERICO_REQUISICAO)
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
