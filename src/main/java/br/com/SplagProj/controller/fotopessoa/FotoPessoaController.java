@@ -3,7 +3,7 @@ package br.com.SplagProj.controller.fotopessoa;
 import br.com.SplagProj.common.RetornoContext;
 import br.com.SplagProj.entity.fotopessoa.dto.FotoPessoaDto;
 import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
-
+import br.com.SplagProj.service.MinioService;
 import br.com.SplagProj.service.fotopessoa.FotoPessoaService;
 import br.com.SplagProj.service.lotacao.LotacaoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,9 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
-
 
 @Slf4j
 @RestController
@@ -27,6 +29,33 @@ public class FotoPessoaController {
 
     @Autowired
     FotoPessoaService service;
+
+    @Autowired
+    MinioService minioService;
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Upload realizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Arquivo inválido"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar o upload")
+    })
+    @Operation(summary = "Upload de foto", description = "Realiza o upload de uma foto para o Min.IO", tags = "Foto_Pessoa")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> uploadFoto(@RequestParam("file") MultipartFile file) {
+        RetornoContext<Object> response = service.uploadFoto(file);
+        return response.toResponseEntity();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "URL gerada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Arquivo não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro ao gerar URL")
+    })
+    @Operation(summary = "Obter URL da foto", description = "Gera uma URL temporária para acessar a foto", tags = "Foto_Pessoa")
+    @GetMapping(value = "/url/{fileName}")
+    public ResponseEntity<Object> getFotoUrl(@PathVariable String fileName) {
+        RetornoContext<Object> response = service.getFotoUrl(fileName);
+        return response.toResponseEntity();
+    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Solicitação executada com sucesso"),

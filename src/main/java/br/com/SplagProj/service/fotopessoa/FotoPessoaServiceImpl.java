@@ -4,6 +4,7 @@ import br.com.SplagProj.common.RetornoContext;
 import br.com.SplagProj.entity.fotopessoa.FotoPessoaEntity;
 import br.com.SplagProj.entity.pessoa.PessoaEntity;
 import br.com.SplagProj.repository.fotopessoa.FotoPessoaRepository;
+import br.com.SplagProj.service.MinioService;
 import br.com.SplagProj.service.pessoa.PessoaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static br.com.SplagProj.common.Mensagens.ENTIDADE_NAO_ENCONTRADA;
@@ -28,6 +32,8 @@ public class FotoPessoaServiceImpl implements FotoPessoaService{
     @Autowired
     PessoaService pessoaService;
 
+    @Autowired
+    MinioService minioService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -83,6 +89,42 @@ public class FotoPessoaServiceImpl implements FotoPessoaService{
     @Override
     public void delete(Integer id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public RetornoContext<Object> getFotoUrl(String fileName) {
+        try {
+            String url = minioService.getPresignedUrl(fileName);
+            return RetornoContext.builder()
+                    .body(url)
+                    .status(HttpStatus.OK)
+                    .build();
+        } catch (Exception e) {
+            log.error("Erro ao gerar URL da foto: ", e);
+            return RetornoContext.builder()
+                    .mensagem(ERRO_GENERICO_REQUISICAO)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
+    @Override
+    public RetornoContext<Object> uploadFoto(MultipartFile file) {
+        try {
+            String fileName = minioService.uploadFile(file);
+            Map<String, String> response = new HashMap<>();
+            response.put("fileName", fileName);
+            return RetornoContext.builder()
+                    .body(response)
+                    .status(HttpStatus.OK)
+                    .build();
+        } catch (Exception e) {
+            log.error("Erro ao fazer upload da foto: ", e);
+            return RetornoContext.builder()
+                    .mensagem(ERRO_GENERICO_REQUISICAO)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
     }
 
 }
