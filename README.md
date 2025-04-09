@@ -23,6 +23,25 @@ Antes de começar, certifique-se de ter instalado:
 - **JPA/Hibernate**
 - **Maven**
 
+## 🔍 Segurança e Jwt
+
+Para acessar os endpoints do projeto é necessário obter um token de autenticação. 
+
+1. **Obter token**
+
+Para obter o token basta cadastrar um usuário e senha no enpoint da imagem abaixo, esse endpoint foi exposto para somente facilitar o teste dos endpoints
+
+![img.png](img.png)
+
+2. **Adicione o token ao Swagger**
+
+Basta, então, copiar o token e o adicinar no cadeado que está no canto superior direito da tela
+
+![img_2.png](img_2.png)
+
+![img_1.png](img_1.png)
+
+Com isso você estará liberado para testar os endpoints do sistema
 
 ## 🚀 Como Rodar o Projeto
 
